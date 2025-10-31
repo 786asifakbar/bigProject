@@ -60,5 +60,38 @@ userSchema.pre("save" , async function(next){
 userSchema.methods.isPasswordCorrect = async function(password){
 return await bcrypt.compare(password , this.password)
 }
+// ye code acces token OTP etc
+userSchema.methods.genrateAccessToken = function(){
+    return jwt.sign(
+        {
+        _id : this._id,
+        email: this.email,
+        username: this.username,
+        fullname : this.fullname,
+    },
+         process.env.ACCESS_TOKEN_SECRET,
+         {
+          expiresIn : process.env.ACCESS_TOKEN_EXPIRY
+         },
+         
+)
+},
+
+//ye code refresh OTP token ka hai  
+userSchema.methods.genrateRefreshToken = function(){
+    return jwt.sign(
+        {
+    
+            _id : this._id,
+     
+       },
+
+         process.env.REFRESH_TOKEN_SECRET,
+         {
+          expiresIn : process.env.REFRESH_TOKEN_EXPIRY
+         },
+         
+)
+}
 
 export const User = mongoose.model("User" , userSchema);
