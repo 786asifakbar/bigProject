@@ -22,25 +22,31 @@ const userSchema = new Schema({
         index : true,
     },
     avatar :{
-        type : String,
-        required : true,
-        index : true,
+        type : String, //cloudnery
     },
     coverImage :{
-        type : String,
-        required : true,  //cloudnery 
+        type : String, //cloudnery 
     },
     password:{
         type : String,
-        required : true,
-        unique : true,
+        required : [true , "Password Required"],
+        
     },
+
      refreshToken :{
         type : String,
         required : true,
         unique : true,
     },
+    watchHistory : [
+         {
+            type : Schema.Types.ObjectId,
+            ref : "video"
+         },
 
-})
+    ],
+
+},{timestamps : true});
+
 
 export const User = mongoose.model("User" , userSchema);
