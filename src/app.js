@@ -15,13 +15,4 @@ app.use(express.json({limit: "16kb"})) // json me data aaengi
 app.use(express.urlencoded({extended: true , limit : "16kb"})) // url me data aati hai encoded hoti hai uska setup karny k liye 
 app.use(express.static("public")) // iska matlb jo bhi images vidoes aae wo public k folder me chala jae data  
 app.use(cookieParser());
-
-
- 
-
-
-
-
-
-
 export { app };
