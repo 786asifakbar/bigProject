@@ -5,3 +5,5 @@ res.status(200).json({
     massage : "Ok"
    })
 });
+
+export {registerUser}
