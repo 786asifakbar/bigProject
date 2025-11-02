@@ -27,4 +27,4 @@ app.use('/api/v1/users',router);
 
 //http://localhost:8000/api/v1/users/register
 
-export { app };
+export default app 

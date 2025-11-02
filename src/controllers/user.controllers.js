@@ -6,4 +6,4 @@ res.status(200).json({
    })
 });
 
-export {registerUser}
+export default registerUser
