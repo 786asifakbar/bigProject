@@ -24,4 +24,4 @@ import fs, { unlinkSync } from "fs"
            return null 
         }
      }
-    
+    export {uploadOnCloudinary}

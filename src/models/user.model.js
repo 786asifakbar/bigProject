@@ -52,7 +52,7 @@ const userSchema = new Schema({
 // ye code keh raha hai k save karny se pehly me password ko encrypt karna chah raha hu
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 });
 
