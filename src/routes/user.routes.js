@@ -4,7 +4,7 @@ import { upload } from "../middlewares/multer.middlewares";
 
 const router = express.Router();
 
-router.route('/register', registerUser).post(
+router.route('/register').post(
 upload.fields([
        {
         name : "avatar",  //kiya lena chahty ho  

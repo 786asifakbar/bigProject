@@ -7,7 +7,7 @@ import {ApiResponse} from "../utils/apiResponse.js";
 const registerUser = asyncHandler(async (req, res) => {
 
     // get user datail from frontend 
-    const { fullname, username, eamil, password } = req.body
+    const { fullname, username, email, password } = req.body
     console.log("email", email);
 
     // validation -not empty 
@@ -27,8 +27,17 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
 // check for images check for avatar 
-   const avatarPath = req.files?.avatar[0].path;
-   const coverImagePath = req.files?.coverImage[0].path;
+   const avatarPath = req.files?.avatar[0]?.path;
+   //const coverImagePath = req.files?.coverImage[0]?.path;
+     // ye wala code bhi hai par advance hai 
+
+     let coverImagePath;
+     if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length>0){
+        coverImagePath = req.files.coverImage[0]?.path;
+     }
+     
+
+   
    if(!avatarPath){
     throw new apiError(400,"Avatar is required");
    }
