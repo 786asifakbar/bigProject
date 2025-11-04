@@ -1,5 +1,5 @@
-import asyncHandler from "../utils/asyncHandler";
-import apiError from '../utils/apiErrors.js'
+import {asyncHandler} from "../utils/asyncHandler";
+import {apiError} from '../utils/apiErrors.js'
 import { User } from '../models/user.model.js'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
 import {ApiResponse} from "../utils/apiResponse.js";

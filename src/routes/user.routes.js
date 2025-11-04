@@ -2,9 +2,9 @@ import { Router } from "express";
 import  { registerUser }  from "../controllers/user.controllers";
 import { upload } from "../middlewares/multer.middlewares";
 
-const router = Router();
+const router = express.Router();
 
-router.route('/register').post(
+router.route('/register', registerUser).post(
 upload.fields([
        {
         name : "avatar",  //kiya lena chahty ho  
