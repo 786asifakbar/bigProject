@@ -1,5 +1,4 @@
 import { Router } from "express";
-
 import  { registerUser }  from "../controllers/user.controllers";
 import { upload } from "../middlewares/multer.middlewares";
 
@@ -8,7 +7,7 @@ const router = Router();
 router.route('/register').post(
 upload.fields([
        {
-        name : "avtar",  //kiya lena chahty ho  
+        name : "avatar",  //kiya lena chahty ho  
         maxCount : 1, // kitni bar lena chahta ho me 1 bar 
        },
         {

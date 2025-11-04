@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-
+import {router} from './routes/user.routes.js';
 
 const app = express();
 //cors k ase define kiya jata hai app.use k sath
@@ -17,14 +17,14 @@ app.use(express.static("public")) // iska matlb jo bhi images vidoes aae wo publ
 app.use(cookieParser());
 
 
-// import routs
-import {router} from './routes/user.routes.js';
+
 
 //routes declerstion
-app.use('/api/v1/users', router);
+app.use('/api/v1/users/register', router);
+// /api/v1/users/register
 
 
 
 //http://localhost:8000/api/v1/users/register
 
-export default app 
+export {app} 

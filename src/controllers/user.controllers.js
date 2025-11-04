@@ -27,7 +27,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
 // check for images check for avatar 
-   const avatarPath = req.files?.avtar[0].path;
+   const avatarPath = req.files?.avatar[0].path;
    const coverImagePath = req.files?.coverImage[0].path;
    if(!avatarPath){
     throw new apiError(400,"Avatar is required");
