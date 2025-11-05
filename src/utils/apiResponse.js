@@ -1,10 +1,14 @@
 class ApiResponse{
-    constructor(statusCode , data , massage = "Success"){
+    constructor(
+        statusCode, 
+        data,
+        massage = "Success"
+     ) {
      this.statusCode = statusCode
      this.data = data
      this.massage = massage
-     this.success = statusCose < 400
+     this.success = statusCode < 400
 
     }
 }
-export {ApiResponse}
+export default ApiResponse 

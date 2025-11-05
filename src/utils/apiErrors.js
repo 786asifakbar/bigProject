@@ -1,6 +1,6 @@
-class apiError extends error{
+class ApiError extends Error {
     constructor(
-        statusCode ,
+        statusCode,
         massage = "something went to wrong",
         errors = [],
         stack = "", 
@@ -16,9 +16,9 @@ class apiError extends error{
       if(stack){
         this.stack = stack
       }else {
-        Error.captureStackTrace(this.constructor)
+        Error.captureStackTrace(this,this.constructor)
       }
  
     }
 }
-export {apiError};
+export default ApiError

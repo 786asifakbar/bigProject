@@ -1,10 +1,10 @@
-import {asyncHandler} from "../utils/asyncHandler";
-import {apiError} from '../utils/apiErrors.js'
+import AsyncHandler from "../utils/AsyncHandler.js";
+import  ApiError  from '../utils/ApiErrors.js'
 import { User } from '../models/user.model.js'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
-import {ApiResponse} from "../utils/apiResponse.js";
+import ApiResponse from "../utils/ApiResponse.js";
 
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = AsyncHandler(async (req, res) => {
 
     // get user datail from frontend 
     const { fullname , username , email , password } = req.body
@@ -15,7 +15,7 @@ const registerUser = asyncHandler(async (req, res) => {
         [fullname, username, email, password].some((filed) =>
             filed?.trim() === "")
     ) {
-        throw new apiError(400, "All field are required")
+        throw new ApiError(400 , "All field are required")
     }
 
     // check if user already exists:username,email
@@ -23,7 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
         $or: [{ username }, { email }]
     });
     if (userExist) {
-        throw new apiError(409, "User with username and email are already exits")
+        throw new ApiError(409 ,"User with username and email are already exits")
     }
 
 // check for images check for avatar 
@@ -35,11 +35,9 @@ const registerUser = asyncHandler(async (req, res) => {
      if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length>0){
         coverImagePath = req.files.coverImage[0]?.path;
      }
-     
-
-   
+        
    if(!avatarPath){
-    throw new apiError(400,"Avatar is required");
+    throw new ApiError(400 , "Avatar is required");
    }
 
 //upload them to cloudinery , avatar
@@ -47,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const avatar = await uploadOnCloudinary(avatarPath)
 const coverImage = await uploadOnCloudinary(coverImagePath)
 if(!avatar){
-    throw new apiError(400, "avatar are required");
+    throw new ApiError(400, "avatar are required");
 }
 
 //create user object -create entry in db
@@ -65,7 +63,7 @@ const user = User.create({
 
   //check for user creation
 if(!createdUser){
-    throw new apiError(500 , "Something went wrong")
+    throw new ApiError(500 , "Something went wrong")
 };
 
 return res.status(201).json(
@@ -75,5 +73,4 @@ return res.status(201).json(
 });
 
 
-
-export { registerUser };
+export {registerUser}

@@ -1,10 +1,11 @@
 import express from "express";
 import dotenv from "dotenv"
 import {connectDb} from "./db/dbConnection.js"
-
-dotenv.config({path : "./.env "});
+import userRouter from "./routes/user.routes.js"
+dotenv.config();
 const app = express();
 
+app.use(express.json());
 
 connectDb()
 .then(()=>{
