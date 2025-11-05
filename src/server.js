@@ -1,10 +1,12 @@
 import express from "express";
 import dotenv from "dotenv"
-import {connectDb} from "./db/dbConnection.js"
+import connectDb from "./db/dbConnection.js"
 import userRouter from "./routes/user.routes.js"
-dotenv.config();
-const app = express();
+import { app } from "./app.js";
 
+dotenv.config({path : "./.env"});
+
+//const app = express();
 app.use(express.json());
 
 connectDb()

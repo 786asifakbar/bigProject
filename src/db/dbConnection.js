@@ -13,4 +13,4 @@ const connectDb = async ()=>{
         process.exit(1);
     }
 }
-export { connectDb };
+export default connectDb ;

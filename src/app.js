@@ -17,13 +17,13 @@ app.use(express.static("public")) // iska matlb jo bhi images vidoes aae wo publ
 app.use(cookieParser());
 
 
-import {router} from './routes/user.routes.js';
+import {userRouter} from './routes/user.routes.js';
 
 
 
 //routes declerstion
-app.use('/api/v1/users' , router);
+app.use('/api/v1/users' , userRouter);
 
 //http://localhost:8000/api/v1/users/register
 
-export { app } 
+export { app }
