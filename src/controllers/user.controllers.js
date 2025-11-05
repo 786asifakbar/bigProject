@@ -7,8 +7,8 @@ import {ApiResponse} from "../utils/apiResponse.js";
 const registerUser = asyncHandler(async (req, res) => {
 
     // get user datail from frontend 
-    const { fullname, username, email, password } = req.body
-    console.log("email", email);
+    const { fullname , username , email , password } = req.body
+    //console.log("email", email);
 
     // validation -not empty 
     if (
@@ -45,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //upload them to cloudinery , avatar
 
 const avatar = await uploadOnCloudinary(avatarPath)
-const coverimg = await uploadOnCloudinary(coverImagePath)
+const coverImage = await uploadOnCloudinary(coverImagePath)
 if(!avatar){
     throw new apiError(400, "avatar are required");
 }
