@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-
 const app = express();
 //cors k ase define kiya jata hai app.use k sath
 app.use(cors({

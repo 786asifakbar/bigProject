@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "backend start new project",
   "type": "module",
-  "main": "src/index.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "javascript",
