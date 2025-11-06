@@ -1,5 +1,5 @@
 
-const AsyncHandler = ( requesthandler ) => {
+const asyncHandler = ( requesthandler ) => {
 
   return (req , res , next)=>{
 
@@ -9,7 +9,7 @@ const AsyncHandler = ( requesthandler ) => {
 
 };
   
-export default AsyncHandler;
+export default asyncHandler;
 
 
 // ye tareqa bhi hai 

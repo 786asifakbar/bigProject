@@ -1,12 +1,31 @@
-import AsyncHandler from "../utils/AsyncHandler.js"
+import asyncHandler from "../utils/asyncHandler.js"
 import  ApiError  from '../utils/ApiErrors.js'
 import { User } from '../models/user.model.js'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
 import ApiResponse from "../utils/ApiResponse.js"
 
-const registerUser = AsyncHandler ( async (req, res) => {
+
+// step 5 : access and refresh token 
+const genrateAccessAndRefreshToken = async(userId)=>{
+    try {
+        const user = await useInsertionEffect.findById(userId)
+        const accesToken = user.genrateAccessToken()
+        const refreshToken = user.genrateRefreshToken()
+        
+        //database me save karni ka code
+        user.refreshToken = refreshToken
+        await user.save({ validateBeforeSave : false })
+        return {accesToken , refreshToken }
+
+    } catch (error) {
+        throw new ApiError(500 ,"something went wrong while genrating refresh and access tokens")
+
+    }
+}
+
+const registerUser = asyncHandler ( async (req, res) => {
 // get user datail from frontend 
-const { fullname , username , email , password } = req.body
+const { fullname , username , email , password } = req.body;
     // validation -not empty 
     if([ 
         fullname, 
@@ -63,4 +82,59 @@ return res.status(201).json(
     new ApiResponse(200 , createdUser, "User Registered Successfully")
 )
 });
-export {registerUser}
+
+const loginUser = asyncHandler(async (req , res)=>{
+  // step 1 : req body -> data
+  const {username , email , password } = req.body
+//step 2 : username or email   
+  if(!username || !email){
+    throw new ApiError(400 , "Username and email or required");
+  }
+  //step 3 : find the user 
+  const user = await User.findOne({
+    $or:[{ username}, {emaill }]
+  });
+  // agar user exits he nh karta to asy check krengy 
+  if(!user){
+    throw new ApiError(404 , "User does not exits");
+  }
+
+  // step 4 :password check
+  const isPassworValid = await user.isPasswordCorrect(password)
+  if(!isPassworValid){
+    throw new ApiError(401 , "Password is not correct");
+  }
+   
+  //call/used access and refreshtokens
+  const { accesToken , refreshToken } = await 
+  genrateAccessAndRefreshToken(user._id)
+  
+  const loggedInUser =  await user.findById(user.id).select("-password - refreshToken")
+
+   
+  // step 6 :send cokkie
+
+  const option = {
+  
+  httpOnly:true,
+  secure : true,
+
+  }
+  return res
+  .status(200)
+  .cookie("AccessToken", accesToken , options)
+  .cookie("refreshToken",refreshToken , options)
+  .json(
+    new ApiResponse(
+        200 , {
+       user: loggedInUser , accesToken , refreshToken
+    }, "user loggedIn Successfully"
+)
+  )
+
+})
+
+export {
+    registerUser,
+    loginUser
+}
