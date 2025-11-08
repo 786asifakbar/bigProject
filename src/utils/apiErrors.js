@@ -4,13 +4,12 @@ class ApiError extends Error {
         massage = "something went to wrong",
         errors = [],
         stack = "", 
-
     ){ 
       super(massage)
       this.statusCode = statusCode
       this.data = null
       this.massage = massage 
-      this.success = false;
+      this.success = false
       this.errors = errors 
 
       if(stack){
