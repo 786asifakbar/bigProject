@@ -3,7 +3,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import userRouter from './routes/user.routes.js'
 import  dotenv from 'dotenv'
-dotenv.config({ path : "../.env" })
+dotenv.config({ path : "./.env" })
 
 
 const app = express();
