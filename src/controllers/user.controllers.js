@@ -215,6 +215,7 @@ try {
 });
 // refreshAccessToken form code end ////////////////////////////////////
 
+// change Current Password code start ////////////////////////////////////
 const changeCurrentPassword = asyncHandler(async (req , res)=>{
 const {oldPassword , newPassword} = req.body
 
@@ -237,16 +238,17 @@ return res
 
 
 });
+// change Current Password code end ////////////////////////////////////
 
-
+// get Current User code start ////////////////////////////////////
 const getCurrentUser = asyncHandler(async(req , res)=>{
 return res
 .status(200)
 .json(200 , req.user, "current User fatched successfully")
 });
+// get Current user code end ////////////////////////////////////
 
-
-
+// update account details code start  ////////////////////////////////////
 const updateAccountDetails = asyncHandler(async (req , res)=>{
 const {fullname , email} = req.body
 if(!fullname || !email){
@@ -270,7 +272,9 @@ return res
 .json(new ApiResponse(200, user , "account details updated successfully"))
 
 });
+// update account details code end ////////////////////////////////////
 
+// update avatar code start ////////////////////////////////////
 const updateAvatar = asyncHandler(async(req , res)=>{
 
   const avatarLocalPath = req.file?.path
@@ -300,7 +304,9 @@ const updateAvatar = asyncHandler(async(req , res)=>{
 .status(200)
 .json(new ApiResponse(200 ,  user , "avatar is updated successfully"))
 });
+// update avatar code end ////////////////////////////////////
 
+// update cover image code start ////////////////////////////////////
 const coverImage = asyncHandler(async(req , res)=>{
   const coverImageLocalPath = req.file?.path
 
@@ -330,6 +336,7 @@ const coverImage = asyncHandler(async(req , res)=>{
 .json(new ApiResponse(200 ,  user , "coverImage is updated successfully"))
 
 });
+// update cover image code end ////////////////////////////////////
 
 
 
