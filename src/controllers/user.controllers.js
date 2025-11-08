@@ -276,9 +276,7 @@ return res
 
 // update avatar code start ////////////////////////////////////
 const updateAvatar = asyncHandler(async(req , res)=>{
-
   const avatarLocalPath = req.file?.path
-
   if(!avatarLocalPath){
     throw new ApiError(400 , " Avatar file is missing ")
   }
@@ -307,7 +305,7 @@ const updateAvatar = asyncHandler(async(req , res)=>{
 // update avatar code end ////////////////////////////////////
 
 // update cover image code start ////////////////////////////////////
-const coverImage = asyncHandler(async(req , res)=>{
+const updateCoverImage = asyncHandler(async(req , res)=>{
   const coverImageLocalPath = req.file?.path
 
   if(!coverImageLocalPath){
@@ -340,9 +338,6 @@ const coverImage = asyncHandler(async(req , res)=>{
 
 
 
-
-
-
 export {
   registerUser,
   loginUser,
@@ -351,5 +346,6 @@ export {
   changeCurrentPassword,
   getCurrentUser,
  updateAccountDetails,
-
+updateAvatar,
+coverImage,
 }
