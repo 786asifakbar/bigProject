@@ -243,8 +243,68 @@ const getCurrentUser = asyncHandler(async(req , res)=>{
 return res
 .status(200)
 .json(200 , req.user, "current User fatched successfully")
+});
+
+
+
+const updateAccountDetails = asyncHandler(async (req , res)=>{
+const {fullname , email} = req.body
+if(!fullname || !email){
+  throw new ApiError(400 , "All feilds are required")
+}
+
+const user = User.findByIdAndUpdate(
+  req.user?._id,
+  {
+    $set : {
+           fullname , email
+           }  
+      },{
+        new : true
+      }
+ 
+).select("-password")
+
+return res
+.status(200)
+.json(new ApiResponse(200, user , "account details updated successfully"))
 
 });
+
+const updateAvatar = asyncHandler(async(req , res)=>{
+
+  const avatarLocalPath = req.file?.path
+
+  if(!avatarLocalPath){
+    throw new ApiError(400 , " Avatar file is missing ")
+  }
+  const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+  if(!avatar.url){
+     throw new ApiError(400 , "Error while uploading on avatar")
+    }
+
+   const user = await User.findByIdAndUpdate(
+      req.user?._id,
+      {  
+        $set:{
+              avatar : avatar.url
+        }
+
+      },
+      {new : true}
+
+    ).select("-password")
+
+ return res
+.status(200)
+.json(new ApiResponse(200 ,  user , "avatar is updated successfully"))
+
+});
+
+
+
+
 
 
 export {
@@ -254,4 +314,6 @@ export {
   refreshAccessToken,
   changeCurrentPassword,
   getCurrentUser,
+ updateAccountDetails,
+
 }
