@@ -48,22 +48,23 @@ const registerUser = asyncHandler(async (req , res) => {
     throw new ApiError(409, "User with username and email are already exits")
   }
   // check for images check for avatar 
-  const avatarPath = req.files?.avatar[0]?.path;
-  const coverImagePath = req.files?.coverImage[0]?.path;
+  const avatarPath = req.files?.avatar?.[0]?.path || null;
+  //const coverImagePath = req.files?.coverImage?.[0]?.path || null;
   
   // ye wala code bhi hai par advance hai 
-  // let coverImagePath;
-  // if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-  //   coverImagePath = req.files.coverImage[0]?.path;
-  // }
-  // if (!avatarPath) {
-  //   throw new ApiError(400, "Avatar is required");
-  // }
+  let coverImagePath;
+  if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+    coverImagePath = req.files.coverImage[0]?.path;
+  }
+  if (!avatarPath) {
+    throw new ApiError(400, "Avatar is required");
+  }
 
   //upload them to cloudinery , avatar
   const avatar = await uploadOnCloudinary(avatarPath)
   const coverImage = await uploadOnCloudinary(coverImagePath)
-  if (!avatar) {
+  
+  if(!avatar) {
     throw new ApiError(400, "avatar are required");
   }
   //create user object -create entry in db
