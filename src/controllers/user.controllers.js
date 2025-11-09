@@ -29,12 +29,12 @@ const genrateAccessAndRefreshToken = async (userId) => {
 
 
 // register form code start ////////////////////////////////////
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req , res) => {
   // get user datail from frontend 
-  const { fullname, username, email, password } = req.body;
+  const { fullname, username, email, password } = req.body
   // validation -not empty 
   if ([
-    fullname,username,email,password
+    fullname, username, email, password
   ].some((filed) =>
     filed?.trim() === "")
   ) {
