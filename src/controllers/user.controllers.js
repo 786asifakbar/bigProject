@@ -110,7 +110,7 @@ const loginUser = asyncHandler(async (req , res) => {
   }
 
   // step 4 :password check
-  const isPassworValid = await user.isPasswordCorrect(password)
+  const isPassworValid = await User.isPasswordCorrect(password)
   if (!isPassworValid) {
     throw new ApiError(401, "Password is not correct");
   }
@@ -119,7 +119,7 @@ const loginUser = asyncHandler(async (req , res) => {
   const { accessToken, refreshToken } = await
     genrateAccessAndRefreshToken(user?._id)
 
-  const loggedInUser = await user.findById(user._id)
+  const loggedInUser = await User.findById(user._id)
   .select("-password - refreshToken");
 
   // step 6 :send cokkie
@@ -209,11 +209,7 @@ try {
   
 } catch (error) {
   throw new ApiError(401 , error?.massage || "Invalid Refresh Token")
-
 }
-
-
-
 });
 // refreshAccessToken form code end ////////////////////////////////////
 
@@ -221,8 +217,8 @@ try {
 const changeCurrentPassword = asyncHandler(async (req , res)=>{
 const {oldPassword , newPassword} = req.body
 
-const user = await User.findById(req.user?.id)
-const isPasswordCorrect = await user.isPasswordCorrect(oldPassword); 
+const user = await User.findById(req.user?._id)
+const isPasswordCorrect = await User.isPasswordCorrect(oldPassword); 
 
 if(!isPasswordCorrect){
   throw new ApiError(401 , "Invalid old Password")
