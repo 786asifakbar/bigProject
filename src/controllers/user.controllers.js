@@ -347,5 +347,5 @@ export {
   getCurrentUser,
  updateAccountDetails,
 updateAvatar,
-coverImage,
+updateCoverImage,
 }
