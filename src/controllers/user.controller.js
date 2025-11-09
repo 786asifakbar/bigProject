@@ -49,16 +49,16 @@ const registerUser = asyncHandler(async (req , res) => {
   }
   // check for images check for avatar 
   const avatarPath = req.files?.avatar[0]?.path;
-  //const coverImagePath = req.files?.coverImage[0]?.path;
+  const coverImagePath = req.files?.coverImage[0]?.path;
   
   // ye wala code bhi hai par advance hai 
-  let coverImagePath;
-  if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-    coverImagePath = req.files.coverImage[0]?.path;
-  }
-  if (!avatarPath) {
-    throw new ApiError(400, "Avatar is required");
-  }
+  // let coverImagePath;
+  // if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+  //   coverImagePath = req.files.coverImage[0]?.path;
+  // }
+  // if (!avatarPath) {
+  //   throw new ApiError(400, "Avatar is required");
+  // }
 
   //upload them to cloudinery , avatar
   const avatar = await uploadOnCloudinary(avatarPath)
@@ -274,7 +274,7 @@ return res
 
 // update avatar code start ////////////////////////////////////
 const updateAvatar = asyncHandler(async(req , res)=>{
-  const avatarLocalPath = req.file?.path
+  const avatarLocalPath = req.files?.avatar?.[0]?.path || null
   if(!avatarLocalPath){
     throw new ApiError(400 , " Avatar file is missing ")
   }
