@@ -83,7 +83,7 @@ const registerUser = asyncHandler(async (req , res) => {
     password,
     username: username.toLowerCase()
   })
-  const createdUser = await User.findById(user._id).select(
+  const createdUser = await User.findById(user?._id).select(
     "-password -refreshToken"
   )
   //check for user creation
@@ -127,8 +127,8 @@ const loginUser = asyncHandler(async (req , res) => {
   const { accessToken, refreshToken } = await
     genrateAccessAndRefreshToken(user?._id)
 
-  const loggedInUser = await User.findById(user._id)
-  .select("-password - refreshToken");
+  const loggedInUser = await User.findById(user?._id)
+  .select("-password -refreshToken");
 
   // step 6 :send cokkie
   const options = {

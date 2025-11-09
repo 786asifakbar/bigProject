@@ -40,11 +40,11 @@ const userSchema = new Schema({
         required: true,
         unique: true,
     },
-    accessToken: {
-        type: String,
-        required: true,
-        unique: true,
-    },
+    // accessToken: {
+    //     type: String,
+    //     required: true,
+    //     unique: true,
+    // },
     watchHistory: [
         {
             type: Schema.Types.ObjectId,
