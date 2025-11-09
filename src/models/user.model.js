@@ -56,7 +56,7 @@ const userSchema = new Schema({
 }, { timestamps: true });
 
 // ye code keh raha hai k save karny se pehly me password ko encrypt karna chah raha hu
-    userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 10)
     next()
@@ -85,11 +85,11 @@ userSchema.methods.genrateAccessToken = function () {
 
     //ye code refresh OTP token ka hai  
     userSchema.methods.genrateRefreshToken = function () {
-        return jwt.sign({_id: this._id},
+        return jwt.sign({ _id: this._id },
             process.env.REFRESH_TOKEN_SECRET,
             {
                 expiresIn: process.env.REFRESH_TOKEN_EXPIRY
             },
         )
     }
-    export const User = mongoose.model("User", userSchema)
+export const User = mongoose.model("User", userSchema)
