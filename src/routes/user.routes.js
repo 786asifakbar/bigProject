@@ -3,7 +3,9 @@ import {loginUser, logoutUser, registerUser , refreshAccessToken } from "../cont
 import { upload } from "../middlewares/multer.middlewares.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
+
 const router = express.Router();
+
 router.route("/register").post(upload.fields([{
        name : "avatar",  //kiya lena chahty ho  
        maxCount : 1, // kitni bar lena chahta ho me 1 bar 
