@@ -37,14 +37,11 @@ const userSchema = new Schema({
 
     refreshToken: {
         type: String,
-        required: true,
-        unique: true,
+        //required : true,
+        //unique: true,
+        default : null,
     },
-    // accessToken: {
-    //     type: String,
-    //     required: true,
-    //     unique: true,
-    // },
+    
     watchHistory: [
         {
             type: Schema.Types.ObjectId,

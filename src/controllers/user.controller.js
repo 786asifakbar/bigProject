@@ -41,12 +41,13 @@ const registerUser = asyncHandler(async (req , res) => {
     throw new ApiError(400, "All field are required")
   }
   // check if user already exists:username,email
-  const userExist = await User.findOne({
+   const userExist = await User.findOne({
     $or: [{ username },{ email }]
   });
-  if (userExist) {
+  if(userExist) {
     throw new ApiError(409, "User with username and email are already exits")
   }
+
   // check for images check for avatar 
   const avatarPath = req.files?.avatar?.[0]?.path;
   //const coverImagePath = req.files?.coverImage?.[0]?.path || null;
@@ -77,11 +78,12 @@ const registerUser = asyncHandler(async (req , res) => {
   //create user object -create entry in db
   const user = User.create({
     fullname,
-    avatar: avatar?.url || "",
+    avatar: avatar?.url,
     coverImage: coverImage?.url || "",
     email,
     password,
-    username: username.toLowerCase()
+    username: username.toLowerCase(),
+    //refreshToken: ""
   })
   const createdUser = await User.findById(user?._id).select(
     "-password -refreshToken"
@@ -90,8 +92,9 @@ const registerUser = asyncHandler(async (req , res) => {
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong")
   };
+
   return res
-  .status(201)
+  .status(200)
   .json(
         new ApiResponse(200, createdUser, "User Registered Successfully")
   )
