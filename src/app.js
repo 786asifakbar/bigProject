@@ -20,7 +20,7 @@ app.use(express.urlencoded({extended: true , limit : "16kb"})) // url me data aa
 app.use(express.static("public")) // iska matlb jo bhi images vidoes aae wo public k folder me chala jae data  
 app.use(cookieParser());
 //routes declerstion
-app.use('/api.v1/users' , userRouter)
+app.use('/api/v1/users' , userRouter)
 
 
 

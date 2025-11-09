@@ -2,7 +2,7 @@ import express from "express";
 import {loginUser, logoutUser, registerUser , refreshAccessToken }
 from "../controllers/user.controllers.js";
 import { upload } from "../middlewares/multer.middlewares.js";
-
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 router.route("/register").post(upload.fields([{
@@ -17,6 +17,7 @@ router.route("/register").post(upload.fields([{
 
 router.route("/login").post(loginUser)
 //secure routes
+
 router.route('/logout').post(varifyJWT , logoutUser)
 router.route("./refresh-token").post(refreshAccessToken)
 
