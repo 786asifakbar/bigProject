@@ -82,15 +82,17 @@ const registerUser = asyncHandler(async (req , res) => {
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong")
   };
-  return res.status(201).json(
-    new ApiResponse(200, createdUser, "User Registered Successfully")
+  return res
+  .status(201)
+  .json(
+        new ApiResponse(200, createdUser, "User Registered Successfully")
   )
 });
 // register form code end ////////////////////////////////////
 
 
 // logged In form code start /////////////////////////////////
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req , res) => {
   // step 1 : req body -> data
   const { username, email, password } = req.body
   //step 2 : username or email   
@@ -115,9 +117,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
   //call/used access and refreshtokens
   const { accessToken, refreshToken } = await
-    genrateAccessAndRefreshToken(user._id)
+    genrateAccessAndRefreshToken(user?._id)
 
-  const loggedInUser = await user.findById(user.id)
+  const loggedInUser = await user.findById(user._id)
   .select("-password - refreshToken");
 
   // step 6 :send cokkie
