@@ -54,11 +54,12 @@ const registerUser = asyncHandler(async (req , res) => {
   // ye wala code bhi hai par advance hai 
   let coverImagePath;
   if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-    coverImagePath = req.files.coverImage[0]?.path;
+    coverImagePath = req.files.coverImage?.[0]?.path || null;
   }
   if (!avatarPath) {
-    throw new ApiError(400, "Avatar is required");
+    throw new ApiError(400, "Avatar path is missing");
   }
+
 
   //upload them to cloudinery , avatar
   const avatar = await uploadOnCloudinary(avatarPath)
