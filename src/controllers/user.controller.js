@@ -48,13 +48,13 @@ const registerUser = asyncHandler(async (req , res) => {
     throw new ApiError(409, "User with username and email are already exits")
   }
   // check for images check for avatar 
-  const avatarPath = req.files?.avatar?.[0]?.path || null;
+  const avatarPath = req.files?.avatar?.[0]?.path;
   //const coverImagePath = req.files?.coverImage?.[0]?.path || null;
   
   // ye wala code bhi hai par advance hai 
   let coverImagePath;
   if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-    coverImagePath = req.files.coverImage?.[0]?.path || null;
+    coverImagePath = req.files.coverImage?.[0]?.path;
   }
   if (!avatarPath) {
     throw new ApiError(400, "Avatar path is missing");
@@ -65,13 +65,19 @@ const registerUser = asyncHandler(async (req , res) => {
   const avatar = await uploadOnCloudinary(avatarPath)
   const coverImage = await uploadOnCloudinary(coverImagePath)
   
-  if(!avatar) {
+  if(!avatarPath) {
     throw new ApiError(400, "avatar are required");
   }
+
+  // if(!coverImagePath) {
+  //   throw new ApiError(400, "coverImage are required");
+  // }
+
+
   //create user object -create entry in db
   const user = User.create({
     fullname,
-    avatar: avatar.url,
+    avatar: avatar?.url || "",
     coverImage: coverImage?.url || "",
     email,
     password,
