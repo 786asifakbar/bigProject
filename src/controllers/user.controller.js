@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken"
 // step 5 : access and refresh token 
 const genrateAccessAndRefreshToken = async (userId) => {
   try {
-    const user = await useInsertionEffect.findById(userId)
+    const user = await useInsertionEffect.findById(userId) //chatgpt ny error bataya hai is line me user,findbyid aaega
     const accessToken = user.genrateAccessToken()
     const refreshToken = user.genrateRefreshToken()
 
@@ -75,7 +75,7 @@ const registerUser = asyncHandler(async (req , res) => {
     password,
     username: username.toLowerCase()
   })
-  const createdUser = await findById(user._id).select(
+  const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   )
   //check for user creation
@@ -110,7 +110,7 @@ const loginUser = asyncHandler(async (req , res) => {
   }
 
   // step 4 :password check
-  const isPassworValid = await User.isPasswordCorrect(password)
+  const isPassworValid = await user.isPasswordCorrect(password)
   if (!isPassworValid) {
     throw new ApiError(401, "Password is not correct");
   }
@@ -163,8 +163,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   }
   return res
     .status(200)
-    .ClearCookie("accessToken", options)
-    .ClearCookie("refreshToken", options)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User Logged Out"))
 });
 // loggedOut form code end ////////////////////////////////////
@@ -173,7 +173,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 // refreshAccessToken form code start ////////////////////////////////////
 const refreshAccessToken = asyncHandler(async (req ,res) => {
 
-const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
+const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
 if(!incomingRefreshToken){
   throw new ApiError(401 , "unauthorized Request");
