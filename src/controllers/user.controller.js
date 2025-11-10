@@ -90,14 +90,14 @@ const registerUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   )
   //check for user creation
-  if (!createdUser) {
+  if(!createdUser) {
     throw new ApiError(500, "user is not created ")
   };
-
+  
   return res
     .status(200)
     .json(
-      new ApiResponse(200, createdUser, "User Registered Successfully")
+      new ApiResponse(200 , createdUser, "User Registered Successfully")
     )
 });
 // register form code end ////////////////////////////////////
