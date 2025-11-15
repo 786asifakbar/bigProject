@@ -419,7 +419,10 @@ return res
 .json(
   new ApiResponse(200 ,channal[0], "User channal fetched successfully")
 )
-})
+});
+
+
+
 
 export {
   registerUser,
