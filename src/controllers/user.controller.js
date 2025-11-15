@@ -346,7 +346,79 @@ const updateCoverImage = asyncHandler(async (req, res) => {
 });
 // update cover image code end ////////////////////////////////////
 
+const getUserChannalProfile = asyncHandler(async (req , res)=>{
+const { username } = req.params
 
+if(!username?.trim()){
+  throw new ApiError(400 , "username is missing")
+}
+
+const channal = await User.aggregate([
+  {
+    $match:{
+            username: username?.toLowerCase()
+    }
+  },
+  
+  { // iska matlab hai k mujhe kitny users ny subscribe kiya hai 
+    $lookup: {
+      from:"subscriptions",
+      localField:"_id",
+      foreignField:"channal",
+      as:"subscribers"
+    }
+  },
+  { // meny kitno ko subscribe kiya hai 
+       $lookup:{ 
+            from:"subscriptions",
+            localField:"_id",
+            foreignField:"subscribers",
+            as:"subscribedTo"
+       }
+  },{
+    $addFields:{
+       subscribersCount:{
+        $size : "$subscribers"
+       },
+       channalSubscribedToCount:{
+        $size: "$subscribedTo"
+       },
+       isSubcscribed:{
+          $cond : {
+            if:{$in : [req.user?._id, "$subscribers.subscriber"]},
+            then : true,
+            else : false
+          }
+       }
+
+    }
+  },
+  {
+    $project:{
+             fullname:1,
+             username:1,
+       subscribersCount: 1,
+       channalSubscribedToCount:1,
+       isSubcscribed:1,
+       avatar:1,
+       coverImage:1,
+       email:1,
+
+
+
+    }
+  }
+])
+
+if(!channal?.length){
+  throw new ApiError(404 , "channal is not exists")
+}
+return res
+.status(200)
+.json(
+  new ApiResponse(200 ,channal[0], "User channal fetched successfully")
+)
+})
 
 export {
   registerUser,
@@ -358,4 +430,5 @@ export {
   updateAccountDetails,
   updateAvatar,
   updateCoverImage,
+  getUserChannalProfile
 }
