@@ -375,7 +375,8 @@ const channal = await User.aggregate([
             foreignField:"subscribers",
             as:"subscribedTo"
        }
-  },{
+  },
+  {
     $addFields:{
        subscribersCount:{
         $size : "$subscribers"
