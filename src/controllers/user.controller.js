@@ -57,7 +57,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
     coverImagePath = req.files.coverImage?.[0]?.path;
   }
-  if(!avatarPath){
+  if (!avatarPath) {
     throw new ApiError(400, "Avatar path is missing");
   }
 
@@ -85,19 +85,19 @@ const registerUser = asyncHandler(async (req, res) => {
     username: username.toLowerCase(),
     //refreshToken: refreshToken || "", 
   });
-  
+
   const createdUser = await User.findById(user?._id).select(
     "-password -refreshToken"
   )
   //check for user creation
-  if(!createdUser) {
+  if (!createdUser) {
     throw new ApiError(500, "user is not created ")
   };
-  
+
   return res
     .status(200)
     .json(
-      new ApiResponse(200 , createdUser, "User Registered Successfully")
+      new ApiResponse(200, createdUser, "User Registered Successfully")
     )
 });
 // register form code end ////////////////////////////////////
@@ -346,82 +346,134 @@ const updateCoverImage = asyncHandler(async (req, res) => {
 });
 // update cover image code end ////////////////////////////////////
 
-const getUserChannalProfile = asyncHandler(async (req , res)=>{
-const { username } = req.params
+const getUserChannalProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params
 
-if(!username?.trim()){
-  throw new ApiError(400 , "username is missing")
-}
-
-const channal = await User.aggregate([
-  {
-    $match:{
-            username: username?.toLowerCase()
-    }
-  },
-  
-  { // iska matlab hai k mujhe kitny users ny subscribe kiya hai 
-    $lookup: {
-      from:"subscriptions",
-      localField:"_id",
-      foreignField:"channal",
-      as:"subscribers"
-    }
-  },
-  { // meny kitno ko subscribe kiya hai 
-       $lookup:{ 
-            from:"subscriptions",
-            localField:"_id",
-            foreignField:"subscribers",
-            as:"subscribedTo"
-       }
-  },
-  {
-    $addFields:{
-       subscribersCount:{
-        $size : "$subscribers"
-       },
-       channalSubscribedToCount:{
-        $size: "$subscribedTo"
-       },
-       isSubcscribed:{
-          $cond : {
-            if:{$in : [req.user?._id, "$subscribers.subscriber"]},
-            then : true,
-            else : false
-          }
-       }
-
-    }
-  },
-  {
-    $project:{
-             fullname:1,
-             username:1,
-       subscribersCount: 1,
-       channalSubscribedToCount:1,
-       isSubcscribed:1,
-       avatar:1,
-       coverImage:1,
-       email:1,
-
-
-
-    }
+  if (!username?.trim()) {
+    throw new ApiError(400, "username is missing")
   }
+
+  const channal = await User.aggregate([
+    {
+      $match: {
+        username: username?.toLowerCase()
+      }
+    },
+
+    { // iska matlab hai k mujhe kitny users ny subscribe kiya hai 
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "channal",
+        as: "subscribers"
+      }
+    },
+    { // meny kitno ko subscribe kiya hai 
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "subscribers",
+        as: "subscribedTo"
+      }
+    },
+    {
+      $addFields: {
+        subscribersCount: {
+          $size: "$subscribers"
+        },
+        channalSubscribedToCount: {
+          $size: "$subscribedTo"
+        },
+        isSubcscribed: {
+          $cond: {
+            if: { $in: [req.user?._id, "$subscribers.subscriber"] },
+            then: true,
+            else: false
+          }
+        }
+
+      }
+    },
+    {
+      $project: {
+        fullname: 1,
+        username: 1,
+        subscribersCount: 1,
+        channalSubscribedToCount: 1,
+        isSubcscribed: 1,
+        avatar: 1,
+        coverImage: 1,
+        email: 1,
+
+
+
+      }
+    }
+  ])
+
+  if (!channal?.length) {
+    throw new ApiError(404, "channal is not exists")
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, channal[0], "User channal fetched successfully")
+    )
+});
+
+const getWatchHistory = asyncHandler(async(req , res)=>{
+
+const user = await User.aggregate([
+  {
+     $match :{
+      _id: new mongoose.Types.ObjectId(req.user._id)
+     }
+
+   },{
+        $lookup:{
+          from : "Videos",
+          localField:"watchHistory",
+          foreignField:"_id",
+          as : "watchHistory", 
+          pipeline :[
+            {
+                 $lookup:{
+                 from : "users",
+                 localField: "owner",
+                 foreignField:"_id",
+                 as: "owner",
+                 pipeline:[
+                  {
+                    $project:{
+                      fullname:1,
+                      username:1,
+                      avatar:1,
+
+                    }
+                  }
+                 ]
+
+                 }
+             },{
+                   $addFields:{
+                    owner:{
+                      $first:"$owner"
+                }
+               }
+             },
+          ]
+        }
+   },
 ])
 
-if(!channal?.length){
-  throw new ApiError(404 , "channal is not exists")
-}
 return res
 .status(200)
 .json(
-  new ApiResponse(200 ,channal[0], "User channal fetched successfully")
+  new ApiResponse(200,user[0].watchHistory,"watch History fatched Successfully")
 )
+
+
 });
-
-
 
 
 export {
@@ -434,5 +486,6 @@ export {
   updateAccountDetails,
   updateAvatar,
   updateCoverImage,
-  getUserChannalProfile
+  getUserChannalProfile,
+  getWatchHistory,
 }
