@@ -26,8 +26,6 @@ const genrateAccessAndRefreshToken = async (userId) => {
 };
 // genrate token code End ////////////////////////////////////
 
-
-
 // register form code start ////////////////////////////////////
 const registerUser = asyncHandler(async (req, res) => {
   // get user datail from frontend 
@@ -102,7 +100,6 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 // register form code end ////////////////////////////////////
 
-
 // logged In form code start /////////////////////////////////
 const loginUser = asyncHandler(async (req, res) => {
   // step 1 : req body -> data
@@ -154,7 +151,6 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 // loggedIn form code End ////////////////////////////////////
 
-
 // logout form code start ////////////////////////////////////
 const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
@@ -180,7 +176,6 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User Logged Out"))
 });
 // loggedOut form code end ////////////////////////////////////
-
 
 // refreshAccessToken form code start ////////////////////////////////////
 const refreshAccessToken = asyncHandler(async (req, res) => {
@@ -474,7 +469,6 @@ return res
 
 
 });
-
 
 export {
   registerUser,

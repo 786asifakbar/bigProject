@@ -3,11 +3,11 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import userRouter from './routes/user.routes.js'
 import  dotenv from 'dotenv'
+
 dotenv.config({ path : "./.env" })
 
 
 const app = express();
-
 
 //cors k ase define kiya jata hai app.use k sath
 app.use(cors({
@@ -24,5 +24,4 @@ app.use('/api/v1/users' , userRouter)
 
 
 
-export default app 
-
+export default app
