@@ -1,10 +1,11 @@
-import express from 'express'
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import userRouter from './routes/user.routes.js'
-import  dotenv from 'dotenv'
+//import  dotenv from 'dotenv'
+import express from "express"
+import cors from "cors"
+import cookieParser from "cookie-parser"
+import userRouter from "./routes/user.routes.js"
 
-dotenv.config({ path : "./.env" })
+
+//dotenv.config({ path : "./.env" })
 
 
 const app = express();
