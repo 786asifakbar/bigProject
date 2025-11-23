@@ -1,13 +1,8 @@
-//import  dotenv from 'dotenv'
+
+
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import userRouter from "./routes/user.routes.js"
-
-
-//dotenv.config({ path : "./.env" })
-
-
 const app = express();
 
 //cors k ase define kiya jata hai app.use k sath
@@ -20,7 +15,9 @@ app.use(express.json({limit: "10mb"})) // json me data aaengi
 app.use(express.urlencoded({extended: true , limit : "10mb"})) // url me data aati hai encoded hoti hai uska setup karny k liye 
 app.use(express.static("public")) // iska matlb jo bhi images vidoes aae wo public k folder me chala jae data  
 app.use(cookieParser());
+
 //routes declerstion
+import userRouter from "./routes/user.routes.js"
 app.use('/api/v1/users' , userRouter)
 
 

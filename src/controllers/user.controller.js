@@ -1,11 +1,9 @@
-import asyncHandler from "../utils/asyncHandler.js"
-import ApiError from "../utils/ApiErrors.js"
-import { User } from "../models/user.model.js"
-import { uploadOnCloudinary } from "../utils/cloudinary.js"
-import ApiResponse from "../utils/ApiResponse.js"
-import jwt from "jsonwebtoken"
-
-
+import { asyncHandler } from "../utils/asyncHandler.js";
+import ApiError from "../utils/ApiErrors.js";
+import { User } from "../models/user.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import ApiResponse from "../utils/ApiResponse.js";
+import jwt from "jsonwebtoken";
 
 // Genrate Access and Refresh token code start ////////////////////////////////////
 // step 5 : access and refresh token 
@@ -26,18 +24,17 @@ const genrateAccessAndRefreshToken = async (userId) => {
 };
 // genrate token code End ////////////////////////////////////
 
+
+
 // register form code start ////////////////////////////////////
 const registerUser = asyncHandler(async (req, res) => {
   // get user datail from frontend 
-  const { fullname, username, email, password } = req.body
+  const { fullname,username,email,password } = req.body
+  
   // validation -not empty 
-  if ([
-    fullname, username, email, password
-  ].some((filed) =>
-    filed?.trim() === "")
-  ) {
-    throw new ApiError(400, "All field are required")
-  }
+  if ([fullname, username, email, password].some((filed) =>
+    filed?.trim() === "")){throw new ApiError(400, "All field are required")};
+
   // check if user already exists:username,email
   const userExist = await User.findOne({
     $or: [{ username }, { email }]
@@ -45,7 +42,6 @@ const registerUser = asyncHandler(async (req, res) => {
   if (userExist) {
     throw new ApiError(409, "User with username and email are already exits")
   }
-
   // check  images for avatar 
   const avatarPath = req.files?.avatar?.[0]?.path;
   //const coverImagePath = req.files?.coverImage?.[0]?.path || null;
@@ -482,4 +478,4 @@ export {
   updateCoverImage,
   getUserChannalProfile,
   getWatchHistory,
-}
+};
