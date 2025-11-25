@@ -24,8 +24,6 @@ const genrateAccessAndRefreshToken = async (userId) => {
 };
 // genrate token code End ////////////////////////////////////
 
-
-
 // register form code start ////////////////////////////////////
 const registerUser = asyncHandler(async (req, res) => {
   // get user datail from frontend 
